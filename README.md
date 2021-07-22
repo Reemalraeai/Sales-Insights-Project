@@ -1,4 +1,4 @@
-# Sales-InsightsProject 
+# Sales Insights Project 
 
 BUSINESS REQUEST
 
