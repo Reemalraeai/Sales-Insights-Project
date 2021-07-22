@@ -1,4 +1,4 @@
-# Sales-Insights-Project
+#Sales Insights Project 
 
 BUSINESS REQUEST
 
@@ -9,19 +9,14 @@ Necessary Systems/ tools/ Platform: Sales Database, MySQL, Power BI Query, Power
 User Stories:
 
 A user stories table was defined to specify what the delivery enable the user to do (from the user point of view)
+![User Request Table](https://user-images.githubusercontent.com/71211875/126686882-ba8e88a4-e0a7-4c54-b2d6-4e250b57f476.GIF)
 
-No #	As a (role)	I want (request / demand)	So that I (user value)	Acceptance Criteria
-1	Sales Manager	A visual dashboard overviews sales over the four years	Observe & compare sales over the years, which year/ month had a pick and which had a decline	A dashboard shows a time-line graph drawing sales trend over time 
-2	Sales Manager	A visual dashboard overviews sales based on the location/ market	See the sales amount & quantity in each location/ market and filter sales based on the location and see which location has the highest profit and the largest sales quantity	A dashboard includes a map to visualize the sales amount and quantity in each location. Also, include slicers to filter sales based on location/market
-4	Sales Manager	A visual dashboard overviews sales amount & quantity by customers	See customers and sales, which customers paid (sales amount) the most and which buy the most (sales quantity)	A bar chart to show sales by customers & slicers to filter for each customer type
-5	Sales Manager	A visual dashboard overviews sales by products and product types	See which products achieved the highest profit and the largest sales quantity. Filter sales based on the product types	A bar chart to show sales by products & slicers to filter for each customer product type.
-6	Sales Manager	A dashboard/ charts showing the top N for both sales amount & sales quantity by products, customers, and markets	See which customers paid the most and buy the largest. which market had the highest sales amount and had the largest quantity. Which products sold the most and which products achieved the highest.    	A dashboard presents the top 5 in bar charts
 DATA EXPLORING
 
 Before the data cleaning and data analysis, I needed to understand and explore the database (see what data the database presents, in which format, how it is presenting the data, what are the fact tables and what are the dimension tables) decide which data is useful for the data analysis goal to extract.
 
 Below is showing the SQL queries run to explore the database:
-
+'''
 select * from sales.customers limit 100;
 desc sales.customers;
 select count(distinct customer_code), count(distinct custmer_name), count(distinct customer_type) from sales.customers;
@@ -63,38 +58,4 @@ inner join sales.markets on sales.transactions.market_code = sales.markets.marke
 where sales.markets.markets_code = 'New York' or sales.markets.markets_code  = 'Paris';
 # It shows no data for New York or Paris market, only the indian markets are shown.
 # So the sales insight will be done only for indian markets. 
-DATA EXTRACTING
-
-Extract the data that I decided to use in csv format. Below is showing the SQL scripts to extract the data from the sales database
-
-select * from sales.customers;
-select * from sales.markets
-where sales.markets.markets_name not in ('New York', 'Paris');
-select * from sales.date;
-select * from sales.transactions 
-inner join sales.markets 
-on sales.transactions.market_code = sales.markets.markets_code
-where sales.markets.markets_name != 'New York' or sales.markets.markets_name != 'Paris';
-# The currency needs to fixed (transfered to doller), it will be done in Power Query in data cleaning stage
-
-DATA LOADING, CLEANING & TRANSFORMING
-
-After extracting the data to csv files, I load these csv files to Power BI Query to clean and transform the data. Below you can the steps that have been done in Power BI Query to clean and transform the data in M language.
-
-= Table.SelectRows(#"Changed Type", each ([sales_amount] <> -1 and [sales_amount] <> 0)) 
-
-= Table.RemoveColumns(#"Filtered Rows1",{"markets_code"}) 
-
-= Table.AddColumn(#"Removed Columns", "norm_amount", each if [currency] = "INR" or [currency] = "INR#(cr)" then [sales_amount]*0.014 else [sales_amount])
-
-= Table.ReorderColumns(#"Changed Type1",{"product_code", "customer_code", "order_date", "market_code", "markets_name", "zone", "sales_qty", "sales_amount", "currency", "norm_amount"})
-
-= Table.TransformColumnTypes(#"Promoted Headers",{{"product_code", type text}, {"product_type", type text}})
-
-= Table.TransformColumnTypes(#"Promoted Headers",{{"customer_code", type text}, {"custmer_name", type text}, {"customer_type", type text}})
-
-= Table.TransformColumnTypes(#"Promoted Headers",{{"markets_code", type text}, {"markets_name", type text}, {"zone", type text}})
-DATA MODELING
-
-After ETL process, I connected the tables in Power BI Desktop, in Model View. A screen shot below shows the connect tables in Model View.
-
+'''
