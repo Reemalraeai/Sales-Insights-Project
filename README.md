@@ -1,4 +1,4 @@
-#Sales Insights Project 
+# Sales-InsightsProject 
 
 BUSINESS REQUEST
 
@@ -114,5 +114,6 @@ The final dashboard with 3 pages (Sales Amount Overview, Sales Quantity Overview
 Special thanks to Ali Ahmad and Dhaval Patel
 
 For the final report: https://app.powerbi.com/reportEmbed?reportId=77844c20-4aa5-451c-a417-5e063c438557&autoAuth=true&ctid=766ae0a8-2dd1-4de3-9241-97090c9c8d3d&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXVhZS1ub3J0aC1hLXByaW1hcnktcmVkaXJlY3QuYW5hbHlzaXMud2luZG93cy5uZXQvIn0%3D 
+
 For the project description: https://reemalraeai.wordpress.com/portfolio/sales-insights-project/
 
