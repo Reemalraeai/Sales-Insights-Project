@@ -16,7 +16,8 @@ DATA EXPLORING
 Before the data cleaning and data analysis, I needed to understand and explore the database (see what data the database presents, in which format, how it is presenting the data, what are the fact tables and what are the dimension tables) decide which data is useful for the data analysis goal to extract.
 
 Below is showing the SQL queries run to explore the database:
-'''
+
+```
 select * from sales.customers limit 100;
 desc sales.customers;
 select count(distinct customer_code), count(distinct custmer_name), count(distinct customer_type) from sales.customers;
@@ -60,8 +61,3 @@ where sales.markets.markets_code = 'New York' or sales.markets.markets_code  = '
 # So the sales insight will be done only for indian markets. 
 '''
 
-```
-function test() {
-  console.log("notice the blank line before this function?");
-}
-```
