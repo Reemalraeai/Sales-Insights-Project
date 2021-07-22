@@ -9,6 +9,7 @@ Necessary Systems/ tools/ Platform: Sales Database, MySQL, Power BI Query, Power
 User Stories:
 
 A user stories table was defined to specify what the delivery enable the user to do (from the user point of view)
+
 ![User Request Table](https://user-images.githubusercontent.com/71211875/126686882-ba8e88a4-e0a7-4c54-b2d6-4e250b57f476.GIF)
 
 DATA EXPLORING
@@ -61,3 +62,6 @@ where sales.markets.markets_code = 'New York' or sales.markets.markets_code  = '
 # So the sales insight will be done only for indian markets. 
 '''
 
+DATA EXTRACTING
+
+Extract the data that I decided to use in csv format. Below is showing the SQL scripts to extract the data from the sales database
