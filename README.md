@@ -60,8 +60,59 @@ inner join sales.markets on sales.transactions.market_code = sales.markets.marke
 where sales.markets.markets_code = 'New York' or sales.markets.markets_code  = 'Paris';
 # It shows no data for New York or Paris market, only the indian markets are shown.
 # So the sales insight will be done only for indian markets. 
-'''
+```
 
 DATA EXTRACTING
 
 Extract the data that I decided to use in csv format. Below is showing the SQL scripts to extract the data from the sales database
+
+```
+select * from sales.customers;
+select * from sales.markets
+where sales.markets.markets_name not in ('New York', 'Paris');
+select * from sales.date;
+select * from sales.transactions 
+inner join sales.markets 
+on sales.transactions.market_code = sales.markets.markets_code
+where sales.markets.markets_name != 'New York' or sales.markets.markets_name != 'Paris';
+# The currency needs to fixed (transfered to doller), it will be done in Power Query in data cleaning stage
+```
+
+DATA LOADING, CLEANING & TRANSFORMING
+
+After extracting the data to csv files, I load these csv files to Power BI Query to clean and transform the data. Below you can the steps that have been done in Power BI Query to clean and transform the data in M language.
+
+```
+= Table.SelectRows(#"Changed Type", each ([sales_amount] <> -1 and [sales_amount] <> 0)) 
+
+= Table.RemoveColumns(#"Filtered Rows1",{"markets_code"}) 
+
+= Table.AddColumn(#"Removed Columns", "norm_amount", each if [currency] = "INR" or [currency] = "INR#(cr)" then [sales_amount]*0.014 else [sales_amount])
+
+= Table.ReorderColumns(#"Changed Type1",{"product_code", "customer_code", "order_date", "market_code", "markets_name", "zone", "sales_qty", "sales_amount", "currency", "norm_amount"})
+
+= Table.TransformColumnTypes(#"Promoted Headers",{{"product_code", type text}, {"product_type", type text}})
+
+= Table.TransformColumnTypes(#"Promoted Headers",{{"customer_code", type text}, {"custmer_name", type text}, {"customer_type", type text}})
+
+= Table.TransformColumnTypes(#"Promoted Headers",{{"markets_code", type text}, {"markets_name", type text}, {"zone", type text}})
+```
+
+
+DATA MODELING
+
+After ETL process, I connected the tables in Power BI Desktop, in Model View. A screen shot below shows the connect tables in Model View.
+
+![DATA MODELLING](https://user-images.githubusercontent.com/71211875/126687531-9d0425f9-311b-47d0-bd6d-1d243a9246be.GIF)
+
+Sales Insight Dashboard
+
+The final dashboard with 3 pages (Sales Amount Overview, Sales Quantity Overview, Top 5 Overview) presents sales amount and quantity by markets, customers, and products and sales trends over the four past years (2017, 2018, 2019, 2020) with slicers to filter by year, month, market/ location, customer types, and product types.
+
+![FEATURE IMAGE](https://user-images.githubusercontent.com/71211875/126687585-a700091e-d0be-4ed5-aa44-e86cf38e67df.GIF)
+
+Special thanks to Ali Ahmad and Dhaval Patel
+
+For the final report: https://app.powerbi.com/reportEmbed?reportId=77844c20-4aa5-451c-a417-5e063c438557&autoAuth=true&ctid=766ae0a8-2dd1-4de3-9241-97090c9c8d3d&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXVhZS1ub3J0aC1hLXByaW1hcnktcmVkaXJlY3QuYW5hbHlzaXMud2luZG93cy5uZXQvIn0%3D 
+For the project description: https://reemalraeai.wordpress.com/portfolio/sales-insights-project/
+
