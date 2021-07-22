@@ -59,3 +59,9 @@ where sales.markets.markets_code = 'New York' or sales.markets.markets_code  = '
 # It shows no data for New York or Paris market, only the indian markets are shown.
 # So the sales insight will be done only for indian markets. 
 '''
+
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
